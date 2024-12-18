@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-zinc-900 text-white">
+    <div class="container mx-auto py-10">
+        <h1 class="text-3xl font-bold mb-6">Task Manager</h1>
+
+        <!-- File Creation Form -->
+        <form action="/create" method="POST" class="bg-zinc-800 p-6 rounded-lg shadow-lg mb-10">
+            <div>
+                <input 
+                    type="text" 
+                    name="title" 
+                    placeholder="Enter file title" 
+                    class="block w-full rounded-md px-4 py-2 mb-4 bg-zinc-700 outline-none text-white" 
+                    required
+                >
+            </div>
+            <div>
+                <textarea 
+                    name="details" 
+                    placeholder="Enter file details" 
+                    class="block w-full rounded-md px-4 py-2 bg-zinc-700 outline-none text-white resize-none" 
+                    rows="5" 
+                    required
+                ></textarea>
+            </div>
+            <button 
+                type="submit" 
+                class="mt-4 bg-blue-600 px-5 py-2 rounded-md text-white hover:bg-blue-700">Create File
+            </button>
+        </form>
+
+        <!-- File List -->
+        <h2 class="text-2xl font-semibold mb-4">Available Files</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <% if (files && files.length > 0) { %>
+                <% files.forEach(function(val) { %>
+                    <div class="bg-zinc-800 p-4 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold truncate"><%= val %></h3>
+                        <div class="flex w-full justify-between items-center mt-3">
+                            <a class="text-blue-500 inline-block mt-3" href="/file/<%= val %>">Read More.</a>
+                            <form action="/delete" method="POST" class="inline">
+                                <input type="hidden" name="filename" value="<%= val %>">
+                                <button type="submit" class="text-red-500 hover:text-red-700">Delete</button>
+                            </form>
+                            <a class='text-zinc-600' href="/edit/<%= val %>">Edit filename</a>
+                        </div>
+                        
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <h3 class="text-zinc-400">No files found in the directory.</h3>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>
